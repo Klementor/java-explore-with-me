@@ -6,14 +6,13 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.stereotype.Repository;
 import ru.practicum.ewm.entity.event.entity.Event;
 import ru.practicum.ewm.entity.event.exception.EventNotFoundException;
 
 import java.time.LocalDateTime;
 import java.util.Set;
 
-@Repository
+
 public interface EventJpaRepository extends JpaRepository<Event, Long> {
     Page<Event> findAllByInitiatorId(Long initiatorId, Pageable pageable);
 

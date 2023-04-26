@@ -45,7 +45,7 @@ public class EndpointHitServiceImpl implements EndpointHitService {
             Boolean unique
     ) {
         List<ViewStats> endpointHitsStats;
-        if (unique == Boolean.TRUE) {
+        if (unique) {
             endpointHitsStats = endpointHitRepository.collectUniqueEndpointStats(
                     start,
                     end,
