@@ -1,8 +1,8 @@
 package ru.practicum.ewm.hit.mapper;
 
 import lombok.experimental.UtilityClass;
-import ru.practicum.ewm.request.AddEndpointHitRequestDto;
-import ru.practicum.ewm.response.EndpointHitResponseDto;
+import ru.practicum.ewm.hit.dto.request.AddEndpointHitRequestDto;
+import ru.practicum.ewm.hit.dto.response.EndpointHitResponseDto;
 import ru.practicum.ewm.hit.model.EndpointHit;
 
 @UtilityClass

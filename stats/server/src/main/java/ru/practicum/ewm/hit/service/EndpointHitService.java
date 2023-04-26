@@ -1,8 +1,8 @@
 package ru.practicum.ewm.hit.service;
 
-import ru.practicum.ewm.request.AddEndpointHitRequestDto;
-import ru.practicum.ewm.response.EndpointHitResponseDto;
-import ru.practicum.ewm.response.stats.ViewStatsResponseDto;
+import ru.practicum.ewm.hit.dto.request.AddEndpointHitRequestDto;
+import ru.practicum.ewm.hit.dto.response.EndpointHitResponseDto;
+import ru.practicum.ewm.hit.dto.response.stats.ViewStatsResponseDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

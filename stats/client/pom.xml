@@ -11,7 +11,7 @@
     <artifactId>explore-with-me-stats-client</artifactId>
 
     <properties>
-        <explore-with-me-stats-common.version>0.0.1-SNAPSHOT</explore-with-me-stats-common.version>
+        <stats-common.version>0.0.1-SNAPSHOT</stats-common.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -20,16 +20,16 @@
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-actuator</artifactId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-webflux</artifactId>
+            <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
         <dependency>
             <groupId>ru.practicum</groupId>
             <artifactId>explore-with-me-stats-common</artifactId>
-            <version>${explore-with-me-stats-common.version}</version>
+            <version>${stats-common.version}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

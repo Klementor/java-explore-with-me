@@ -1,8 +1,8 @@
 package ru.practicum.ewm.hit.mapper.stats;
 
 import lombok.experimental.UtilityClass;
+import ru.practicum.ewm.hit.dto.response.stats.ViewStatsResponseDto;
 import ru.practicum.ewm.hit.model.stats.ViewStats;
-import ru.practicum.ewm.response.stats.ViewStatsResponseDto;
 
 import java.util.List;
 import java.util.stream.Collectors;
