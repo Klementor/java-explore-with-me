@@ -12,6 +12,8 @@ import ru.practicum.ewm.entity.category.mapper.CategoryMapper;
 import ru.practicum.ewm.entity.category.repository.CategoryJpaRepository;
 import ru.practicum.ewm.entity.category.service.CategoryAdminService;
 
+import java.util.Optional;
+
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -36,8 +38,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
         log.debug("CATEGORY[id={}] deleted.", catId);
     }
 
-    private Category getUpdatedCategory(Long catId, UpdateCategoryRequestDto categoryDto) {
-        Category category = categoryRepository.getReferenceById(catId);
+    private Category getUpdatedCategory(Category category, UpdateCategoryRequestDto categoryDto) {
 
         category.setName(categoryDto.getName());
 
@@ -47,8 +48,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     @Override
     @Transactional
     public CategoryResponseDto updateCategoryById(Long catId, UpdateCategoryRequestDto categoryDto) {
-        categoryRepository.checkCategoryExistsById(catId);
-        Category updatedCategory = getUpdatedCategory(catId, categoryDto);
+        Category updatedCategory = getUpdatedCategory(categoryRepository.checkCategoryExistsById(catId), categoryDto);
         log.debug("CATEGORY[id={}, name='{}'] updated.", updatedCategory.getId(), updatedCategory.getName());
         return CategoryMapper.toCategoryResponseDto(updatedCategory);
     }
