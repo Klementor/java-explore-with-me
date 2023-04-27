@@ -7,8 +7,10 @@ import ru.practicum.ewm.entity.user.exception.UserNotFoundException;
 
 public interface UserJpaRepository extends JpaRepository<User, Long> {
 
-    default void checkUserExistsById(@NonNull Long userId) {
-        if (!existsById(userId)) {
+    default User checkUserExistsById(@NonNull Long userId) {
+        try {
+            return getReferenceById(userId);
+        } catch (Exception e) {
             throw UserNotFoundException.fromUserId(userId);
         }
     }

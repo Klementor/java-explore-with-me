@@ -43,9 +43,9 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     @Override
     @Transactional
     public EventFullResponseDto addEvent(Long userId, AddEventRequestDto eventDto) {
-        userRepository.checkUserExistsById(userId);
-        categoryRepository.checkCategoryExistsById(eventDto.getCategory());
-        Event event = getEvent(eventDto, userId);
+        User user = userRepository.checkUserExistsById(userId);
+        Category category = categoryRepository.checkCategoryExistsById(eventDto.getCategory());
+        Event event = getEvent(eventDto, user, category);
         EventValidator.validateEventDateMoreThanTwoHoursAfterCurrentTime(event);
         Event savedEvent = eventRepository.save(event);
         log.debug("EVENT[id={}, initiator_id={}, title='{}', event_date={}] saved.",
@@ -66,8 +66,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     @Override
     public EventFullResponseDto getEventById(Long userId, Long eventId) {
         userRepository.checkUserExistsById(userId);
-        eventRepository.checkEventExistsById(eventId);
-        Event event = eventRepository.getReferenceById(eventId);
+        Event event = eventRepository.checkEventExistsById(eventId);
         EventFullResponseDto eventDto = EventMapper.toEventFullResponseDto(event, null, null);
         log.debug("EVENT<DTO>[id={}, title='{}'] returned.",
                 eventDto.getId(), eventDto.getTitle());
@@ -95,8 +94,8 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     @Transactional
     public EventFullResponseDto updateEventById(Long userId, Long eventId, UpdateEventUserRequestDto eventDto) {
         userRepository.checkUserExistsById(userId);
-        eventRepository.checkEventExistsById(eventId);
-        Event updatedEvent = getUpdatedEvent(eventId, eventDto);
+        Event event = eventRepository.checkEventExistsById(eventId);
+        Event updatedEvent = getUpdatedEvent(event, eventDto);
         EventValidator.validateEventBeforeUpdating(updatedEvent);
         EventValidator.validateEventDateMoreThanTwoHoursAfterCurrentTime(updatedEvent);
         performActionIfExists(updatedEvent, eventDto.getStateAction());
@@ -115,8 +114,8 @@ public class EventPrivateServiceImpl implements EventPrivateService {
             UpdateEventParticipationStatusRequestDto requestStatusDto
     ) {
         userRepository.checkUserExistsById(userId);
-        eventRepository.checkEventExistsById(eventId);
-        List<Participation> requests = considerRequests(eventId, requestStatusDto);
+        Event event = eventRepository.checkEventExistsById(eventId);
+        List<Participation> requests = considerRequests(event, requestStatusDto);
         requestRepository.saveAll(requests);
         log.debug("EVENT_REQUESTS[request_ids_count={}, status='{}'] updated.",
                 requestStatusDto.getRequestIds().size(), requestStatusDto.getStatus());
@@ -141,12 +140,10 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         }
     }
 
-    private Event getUpdatedEvent(Long eventId, UpdateEventUserRequestDto eventDto) {
-        Event event = eventRepository.getReferenceById(eventId);
+    private Event getUpdatedEvent(Event event, UpdateEventUserRequestDto eventDto) {
 
         if (eventDto.getCategory() != null) {
-            categoryRepository.checkCategoryExistsById(eventDto.getCategory());
-            event.setCategory(categoryRepository.getReferenceById(eventDto.getCategory()));
+            event.setCategory(categoryRepository.checkCategoryExistsById(eventDto.getCategory()));
         }
 
         if (eventDto.getLocation() != null) {
@@ -164,17 +161,14 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         return event;
     }
 
-    private Event getEvent(AddEventRequestDto eventDto, Long initiatorId) {
-        Category category = categoryRepository.getReferenceById(eventDto.getCategory());
-        User initiator = userRepository.getReferenceById(initiatorId);
+    private Event getEvent(AddEventRequestDto eventDto, User initiator, Category category) {
         return EventMapper.toEvent(eventDto, category, initiator);
     }
 
     private List<Participation> considerRequests(
-            Long eventId,
+            Event event,
             UpdateEventParticipationStatusRequestDto requestStatusDto
     ) {
-        Event event = eventRepository.getReferenceById(eventId);
         int limit = event.getParticipantLimit();
         int confirmedRequests = requestRepository.getEventRequestsCount(event.getId(), Participation.Status.CONFIRMED);
 

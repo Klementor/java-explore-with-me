@@ -66,8 +66,8 @@ public class EventAdminServiceImpl implements EventAdminService {
     @Override
     @Transactional
     public EventFullResponseDto updateAdminEventById(Long eventId, UpdateEventAdminRequestDto adminRequest) {
-        eventRepository.checkEventExistsById(eventId);
-        Event event = getUpdatedEvent(eventId, adminRequest);
+
+        Event event = getUpdatedEvent(eventRepository.checkEventExistsById(eventId), adminRequest);
         checkEventAdminUpdate(event, adminRequest.getStateAction());
         performActionIfExists(event, adminRequest.getStateAction());
         log.debug("EVENT[id={}, initiator_id={}, title='{}'] updated by admin.",
@@ -103,12 +103,10 @@ public class EventAdminServiceImpl implements EventAdminService {
         }
     }
 
-    private Event getUpdatedEvent(Long eventId, UpdateEventAdminRequestDto adminRequest) {
-        Event event = eventRepository.getReferenceById(eventId);
+    private Event getUpdatedEvent(Event event, UpdateEventAdminRequestDto adminRequest) {
 
         if (adminRequest.getCategory() != null) {
-            categoryRepository.checkCategoryExistsById(adminRequest.getCategory());
-            Category category = categoryRepository.getReferenceById(adminRequest.getCategory());
+            Category category = categoryRepository.checkCategoryExistsById(adminRequest.getCategory());
             event.setCategory(category);
         }
 

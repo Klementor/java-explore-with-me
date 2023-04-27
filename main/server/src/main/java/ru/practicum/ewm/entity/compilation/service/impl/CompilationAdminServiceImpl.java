@@ -51,8 +51,8 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     @Override
     @Transactional
     public CompilationResponseDto updateCompilation(Long compId, UpdateCompilationRequestDto compilationDto) {
-        compilationRepository.checkCompilationExistsById(compId);
-        Compilation updatedCompilation = getUpdatedCompilation(compId, compilationDto);
+        Compilation updatedCompilation = getUpdatedCompilation(compilationRepository.checkCompilationExistsById(compId),
+                compilationDto);
         log.debug("COMPILATION[id={}, title='{}', pinned={}, events_count={}] updated.",
                 updatedCompilation.getId(),
                 updatedCompilation.getTitle(),
@@ -61,8 +61,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
         return CompilationMapper.toCompilationResponseDto(updatedCompilation, null, null);
     }
 
-    private Compilation getUpdatedCompilation(Long compId, UpdateCompilationRequestDto compilationDto) {
-        Compilation compilation = compilationRepository.getReferenceById(compId);
+    private Compilation getUpdatedCompilation(Compilation compilation, UpdateCompilationRequestDto compilationDto) {
 
         Optional.ofNullable(compilationDto.getTitle()).ifPresent(compilation::setTitle);
         Optional.ofNullable(compilationDto.getPinned()).ifPresent(compilation::setPinned);

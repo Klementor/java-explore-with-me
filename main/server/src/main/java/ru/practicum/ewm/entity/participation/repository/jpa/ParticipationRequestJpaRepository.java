@@ -47,8 +47,10 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
 
     boolean existsByEventIdAndRequesterId(Long eventId, Long requesterId);
 
-    default void checkParticipationExistsById(@NonNull Long requestId) {
-        if (!existsById(requestId)) {
+    default Participation checkParticipationExistsById(@NonNull Long requestId) {
+        try {
+            return getReferenceById(requestId);
+        } catch (Exception e) {
             throw ParticipationRequestNotFoundException.fromRequestId(requestId);
         }
     }

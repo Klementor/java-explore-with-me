@@ -22,10 +22,9 @@ public class CompilationPublicServiceImpl implements CompilationPublicService {
 
     @Override
     public CompilationResponseDto getCompilationById(Long compId) {
-        compilationRepository.checkCompilationExistsById(compId);
-        Compilation compilation = compilationRepository.getReferenceById(compId);
-        var compilationDto = CompilationMapper.toCompilationResponseDto(compilation, null, null);
-        return compilationDto;
+        Compilation compilation = compilationRepository
+                .getReferenceById(compilationRepository.checkCompilationExistsById(compId).getId());
+        return CompilationMapper.toCompilationResponseDto(compilation, null, null);
     }
 
     @Override
@@ -37,7 +36,6 @@ public class CompilationPublicServiceImpl implements CompilationPublicService {
         } else {
             compilations = compilationRepository.findAll(pageable);
         }
-        var compilationDtos = CompilationMapper.toCompilationResponseDto(compilations, null, null);
-        return compilationDtos;
+        return CompilationMapper.toCompilationResponseDto(compilations, null, null);
     }
 }

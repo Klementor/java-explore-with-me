@@ -30,9 +30,9 @@ public class ParticipationPrivateServiceImpl implements ParticipationPrivateServ
     @Override
     @Transactional
     public ParticipationResponseDto addRequest(Long requesterId, Long eventId) {
-        userRepository.checkUserExistsById(requesterId);
-        eventRepository.checkEventExistsById(eventId);
-        checkRequest(requesterId, eventId);
+        User user = userRepository.checkUserExistsById(requesterId);
+        Event event = eventRepository.checkEventExistsById(eventId);
+        checkRequest(user, event);
         Participation request = getParticipationRequest(requesterId, eventId);
         Participation savedRequest = requestRepository.save(request);
         log.debug("PARTICIPATION_REQUEST[id={}, event_id={}, requester_id={}, status='{}'] saved.",
@@ -47,8 +47,8 @@ public class ParticipationPrivateServiceImpl implements ParticipationPrivateServ
     @Transactional
     public ParticipationResponseDto cancelRequestById(Long userId, Long requestId) {
         userRepository.checkUserExistsById(userId);
-        requestRepository.checkParticipationExistsById(requestId);
-        Participation canceledRequest = cancelRequest(requestId);
+        Participation participation = requestRepository.checkParticipationExistsById(requestId);
+        Participation canceledRequest = cancelRequest(participation);
         log.debug("PARTICIPATION_REQUEST[id={}, requester_id={}, event_id={}] canceled.",
                 canceledRequest.getId(),
                 canceledRequest.getRequester().getId(),
@@ -86,20 +86,17 @@ public class ParticipationPrivateServiceImpl implements ParticipationPrivateServ
         return request;
     }
 
-    private Participation cancelRequest(Long requestId) {
-        Participation request = requestRepository.getReferenceById(requestId);
+    private Participation cancelRequest(Participation participation) {
 
-        request.setStatus(Participation.Status.CANCELED);
+        participation.setStatus(Participation.Status.CANCELED);
 
-        return request;
+        return participation;
     }
 
-    private void checkRequest(Long userId, Long eventId) {
-        User requester = userRepository.getReferenceById(userId);
-        Event event = eventRepository.getReferenceById(eventId);
-        Integer confirmedRequests = requestRepository.getEventRequestsCount(eventId, Participation.Status.CONFIRMED);
+    private void checkRequest(User user, Event event) {
+        Integer confirmedRequests = requestRepository.getEventRequestsCount(event.getId(), Participation.Status.CONFIRMED);
 
-        ParticipationValidator.validateRequesterIsNotInitiator(requester.getId(), event.getInitiator().getId());
+        ParticipationValidator.validateRequesterIsNotInitiator(user.getId(), event.getInitiator().getId());
         ParticipationValidator.validateEventPublished(event.getState());
         ParticipationValidator.validateLimitNotExceeded(1, confirmedRequests, event.getParticipantLimit());
     }

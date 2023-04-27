@@ -52,8 +52,10 @@ public interface EventJpaRepository extends JpaRepository<Event, Long> {
             @Param("state") Event.State state,
             Pageable pageable);
 
-    default void checkEventExistsById(@NonNull Long eventId) {
-        if (!existsById(eventId)) {
+    default Event checkEventExistsById(@NonNull Long eventId) {
+        try {
+            return getReferenceById(eventId);
+        } catch (Exception e) {
             throw EventNotFoundException.fromEventId(eventId);
         }
     }
