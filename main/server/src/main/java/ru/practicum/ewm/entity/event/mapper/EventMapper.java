@@ -1,7 +1,6 @@
 package ru.practicum.ewm.entity.event.mapper;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import lombok.experimental.UtilityClass;
 import ru.practicum.ewm.entity.category.entity.Category;
 import ru.practicum.ewm.entity.event.dto.request.AddEventRequestDto;
 import ru.practicum.ewm.entity.event.dto.response.EventFullResponseDto;
@@ -17,10 +16,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@UtilityClass
 public final class EventMapper {
 
-    public static Event toEvent(AddEventRequestDto eventDto, Category category, User initiator) {
+    public Event toEvent(AddEventRequestDto eventDto, Category category, User initiator) {
         Event event = new Event();
 
         event.setTitle(eventDto.getTitle());
@@ -38,7 +37,7 @@ public final class EventMapper {
         return event;
     }
 
-    public static EventFullResponseDto toEventFullResponseDto(Event event, Long views, Integer confirmedRequests) {
+    public EventFullResponseDto toEventFullResponseDto(Event event, Long views, Integer confirmedRequests) {
         EventFullResponseDto eventDto = new EventFullResponseDto();
 
         eventDto.setId(event.getId());
@@ -61,7 +60,7 @@ public final class EventMapper {
         return eventDto;
     }
 
-    public static EventShortResponseDto toShortResponseDto(Event event,
+    public EventShortResponseDto toShortResponseDto(Event event,
                                                            Long views,
                                                            Integer confirmedRequests) {
         EventShortResponseDto eventDto = new EventShortResponseDto();
@@ -79,7 +78,7 @@ public final class EventMapper {
         return eventDto;
     }
 
-    public static List<EventFullResponseDto> toEventFullResponseDto(
+    public List<EventFullResponseDto> toEventFullResponseDto(
             Iterable<Event> events,
             Map<Long, Long> eventViews,
             Map<Long, Integer> eventConfirmedRequests
@@ -101,7 +100,7 @@ public final class EventMapper {
         return eventsDto;
     }
 
-    public static EventRequestsByStatusResponseDto toEventRequestStatusUpdateResponseDto(List<Participation> requests) {
+    public EventRequestsByStatusResponseDto toEventRequestStatusUpdateResponseDto(List<Participation> requests) {
         EventRequestsByStatusResponseDto requestDto = new EventRequestsByStatusResponseDto();
 
         List<EventRequestsByStatusResponseDto.ParticipationDto> confirmedRequests = new ArrayList<>();
@@ -123,7 +122,7 @@ public final class EventMapper {
         return requestDto;
     }
 
-    public static List<EventShortResponseDto> toShortResponseDto(
+    public List<EventShortResponseDto> toShortResponseDto(
             Iterable<Event> events,
             Map<Long, Long> eventViews,
             Map<Long, Integer> eventConfirmedRequests
