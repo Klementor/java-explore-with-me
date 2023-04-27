@@ -1,6 +1,7 @@
 package ru.practicum.ewm.entity.event.mapper;
 
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.practicum.ewm.entity.category.entity.Category;
 import ru.practicum.ewm.entity.event.dto.request.AddEventRequestDto;
 import ru.practicum.ewm.entity.event.dto.response.EventFullResponseDto;
@@ -16,10 +17,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@UtilityClass
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class EventMapper {
 
-    public Event toEvent(AddEventRequestDto eventDto, Category category, User initiator) {
+    public static Event toEvent(AddEventRequestDto eventDto, Category category, User initiator) {
         Event event = new Event();
 
         event.setTitle(eventDto.getTitle());
@@ -37,7 +38,7 @@ public final class EventMapper {
         return event;
     }
 
-    public EventFullResponseDto toEventFullResponseDto(Event event, Long views, Integer confirmedRequests) {
+    public static EventFullResponseDto toEventFullResponseDto(Event event, Long views, Integer confirmedRequests) {
         EventFullResponseDto eventDto = new EventFullResponseDto();
 
         eventDto.setId(event.getId());
@@ -78,7 +79,7 @@ public final class EventMapper {
         return eventDto;
     }
 
-    public List<EventFullResponseDto> toEventFullResponseDto(
+    public static List<EventFullResponseDto> toEventFullResponseDto(
             Iterable<Event> events,
             Map<Long, Long> eventViews,
             Map<Long, Integer> eventConfirmedRequests
