@@ -49,8 +49,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     public CategoryResponseDto updateCategoryById(Long catId, UpdateCategoryRequestDto categoryDto) {
         categoryRepository.checkCategoryExistsById(catId);
         Category updatedCategory = getUpdatedCategory(catId, categoryDto);
-        Category savedCategory = categoryRepository.save(updatedCategory);
-        log.debug("CATEGORY[id={}, name='{}'] updated.", savedCategory.getId(), savedCategory.getName());
-        return CategoryMapper.toCategoryResponseDto(savedCategory);
+        log.debug("CATEGORY[id={}, name='{}'] updated.", updatedCategory.getId(), updatedCategory.getName());
+        return CategoryMapper.toCategoryResponseDto(updatedCategory);
     }
 }

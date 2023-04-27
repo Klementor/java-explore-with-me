@@ -53,13 +53,12 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     public CompilationResponseDto updateCompilation(Long compId, UpdateCompilationRequestDto compilationDto) {
         compilationRepository.checkCompilationExistsById(compId);
         Compilation updatedCompilation = getUpdatedCompilation(compId, compilationDto);
-        Compilation savedCompilation = compilationRepository.save(updatedCompilation);
         log.debug("COMPILATION[id={}, title='{}', pinned={}, events_count={}] updated.",
-                savedCompilation.getId(),
-                savedCompilation.getTitle(),
-                savedCompilation.getPinned(),
-                (savedCompilation.getEvents() != null) ? savedCompilation.getEvents().size() : 0);
-        return CompilationMapper.toCompilationResponseDto(savedCompilation, null, null);
+                updatedCompilation.getId(),
+                updatedCompilation.getTitle(),
+                updatedCompilation.getPinned(),
+                (updatedCompilation.getEvents() != null) ? updatedCompilation.getEvents().size() : 0);
+        return CompilationMapper.toCompilationResponseDto(updatedCompilation, null, null);
     }
 
     private Compilation getUpdatedCompilation(Long compId, UpdateCompilationRequestDto compilationDto) {
