@@ -100,12 +100,11 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         EventValidator.validateEventBeforeUpdating(updatedEvent);
         EventValidator.validateEventDateMoreThanTwoHoursAfterCurrentTime(updatedEvent);
         performActionIfExists(updatedEvent, eventDto.getStateAction());
-        Event savedEvent = eventRepository.save(updatedEvent);
         log.debug("EVENT[id={}, initiator_id={}, title='{}'] updated by user.",
-                savedEvent.getId(),
-                savedEvent.getInitiator().getId(),
-                savedEvent.getTitle());
-        return EventMapper.toEventFullResponseDto(savedEvent, null, null);
+                updatedEvent.getId(),
+                updatedEvent.getInitiator().getId(),
+                updatedEvent.getTitle());
+        return EventMapper.toEventFullResponseDto(updatedEvent, null, null);
     }
 
     @Override

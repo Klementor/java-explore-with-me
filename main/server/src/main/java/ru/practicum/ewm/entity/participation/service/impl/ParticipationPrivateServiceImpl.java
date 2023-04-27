@@ -49,12 +49,11 @@ public class ParticipationPrivateServiceImpl implements ParticipationPrivateServ
         userRepository.checkUserExistsById(userId);
         requestRepository.checkParticipationExistsById(requestId);
         Participation canceledRequest = cancelRequest(requestId);
-        Participation savedRequest = requestRepository.save(canceledRequest);
         log.debug("PARTICIPATION_REQUEST[id={}, requester_id={}, event_id={}] canceled.",
-                savedRequest.getId(),
-                savedRequest.getRequester().getId(),
-                savedRequest.getEvent().getId());
-        return ParticipationMapper.toParticipationResponseDto(savedRequest);
+                canceledRequest.getId(),
+                canceledRequest.getRequester().getId(),
+                canceledRequest.getEvent().getId());
+        return ParticipationMapper.toParticipationResponseDto(canceledRequest);
     }
 
     @Override

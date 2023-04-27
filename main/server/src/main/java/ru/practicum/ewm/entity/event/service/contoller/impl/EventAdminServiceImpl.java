@@ -70,10 +70,9 @@ public class EventAdminServiceImpl implements EventAdminService {
         Event event = getUpdatedEvent(eventId, adminRequest);
         checkEventAdminUpdate(event, adminRequest.getStateAction());
         performActionIfExists(event, adminRequest.getStateAction());
-        Event savedEvent = eventRepository.save(event);
         log.debug("EVENT[id={}, initiator_id={}, title='{}'] updated by admin.",
                 event.getId(), event.getInitiator().getId(), event.getTitle());
-        return EventMapper.toEventFullResponseDto(savedEvent, null, null);
+        return EventMapper.toEventFullResponseDto(event, null, null);
     }
 
     private static void checkEventAdminUpdate(Event event, Event.AdminStateAction stateAction) {
