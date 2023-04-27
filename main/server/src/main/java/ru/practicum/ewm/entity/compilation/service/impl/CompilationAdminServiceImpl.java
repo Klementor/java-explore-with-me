@@ -64,7 +64,7 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     private Compilation getUpdatedCompilation(Compilation compilation, UpdateCompilationRequestDto compilationDto) {
 
         Optional.ofNullable(compilationDto.getTitle()).ifPresent(compilation::setTitle);
-        Optional.ofNullable(compilationDto.getPinned()).ifPresent(compilation::setPinned);
+        Optional.of(compilationDto.isPinned()).ifPresent(compilation::setPinned);
 
         Set<Event> existsEvents = new HashSet<>(eventRepository.findAllById(compilationDto.getEvents()));
         compilation.setEvents(existsEvents);

@@ -26,11 +26,11 @@ public final class EventMapper {
         event.setAnnotation(eventDto.getAnnotation());
         event.setDescription(eventDto.getDescription());
         event.setEventDate(eventDto.getEventDate());
-        event.setPaid(eventDto.getPaid());
+        event.setPaid(eventDto.isPaid());
         event.setLat(eventDto.getLocation().getLat());
         event.setLon(eventDto.getLocation().getLon());
         event.setParticipantLimit(eventDto.getParticipantLimit());
-        event.setRequestModeration(eventDto.getRequestModeration());
+        event.setRequestModeration(eventDto.isRequestModeration());
         event.setCategory(category);
         event.setInitiator(initiator);
 

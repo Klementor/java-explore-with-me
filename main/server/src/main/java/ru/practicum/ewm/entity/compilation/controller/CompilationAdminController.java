@@ -24,7 +24,7 @@ public class CompilationAdminController {
                                                      @Valid AddCompilationRequestDto compilationDto) {
         log.info("add EVENT_COMPILATION[events_count={}, pinned={}, title='{}'].",
                 compilationDto.getEvents().size(),
-                compilationDto.getPinned(),
+                compilationDto.isPinned(),
                 compilationDto.getTitle());
         return compilationService.addCompilation(compilationDto);
     }
@@ -36,7 +36,7 @@ public class CompilationAdminController {
         log.info("update EVENT_COMPILATION[id={}, events_count={}, pinned={}, title='{}'].",
                 compId,
                 compilationDto.getEvents().size(),
-                compilationDto.getPinned(),
+                compilationDto.isPinned(),
                 compilationDto.getTitle());
         return compilationService.updateCompilation(compId, compilationDto);
     }
