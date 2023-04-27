@@ -12,8 +12,6 @@ import ru.practicum.ewm.entity.category.mapper.CategoryMapper;
 import ru.practicum.ewm.entity.category.repository.CategoryJpaRepository;
 import ru.practicum.ewm.entity.category.service.CategoryAdminService;
 
-import java.util.Optional;
-
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
@@ -39,9 +37,7 @@ public class CategoryAdminServiceImpl implements CategoryAdminService {
     }
 
     private Category getUpdatedCategory(Category category, UpdateCategoryRequestDto categoryDto) {
-
         category.setName(categoryDto.getName());
-
         return category;
     }
 
