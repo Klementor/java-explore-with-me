@@ -4,7 +4,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.util.Set;
 
@@ -12,10 +11,9 @@ import java.util.Set;
 @Getter
 @Setter
 public class UpdateCompilationRequestDto {
-    @NotNull
     private Set<Long> events;
 
-    private Boolean pinned;
+    private boolean pinned;
 
     @Size(min = 3, max = 120)
     private String title;

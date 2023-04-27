@@ -6,6 +6,7 @@ import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -30,9 +31,11 @@ public class AddEventRequestDto {
     @NotNull
     private Location location;
 
-    private Boolean paid;
-    private Integer participantLimit;
-    private Boolean requestModeration;
+    private boolean paid;
+
+    @PositiveOrZero
+    private int participantLimit;
+    private boolean requestModeration;
 
     @NotBlank
     @Size(min = 3, max = 120)

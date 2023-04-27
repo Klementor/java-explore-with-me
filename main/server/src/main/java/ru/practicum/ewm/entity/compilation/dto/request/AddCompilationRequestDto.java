@@ -14,7 +14,7 @@ import java.util.Set;
 public class AddCompilationRequestDto {
     private Set<Long> events;
 
-    private Boolean pinned;
+    private boolean pinned;
 
     @NotBlank
     @Size(min = 3, max = 120)
