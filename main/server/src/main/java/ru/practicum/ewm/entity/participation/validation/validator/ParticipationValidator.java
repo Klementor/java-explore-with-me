@@ -23,6 +23,9 @@ public final class ParticipationValidator {
     public static void validateLimitNotExceeded(Integer participants,
                                                 Integer confirmedRequests,
                                                 Integer participantLimit) {
+        if (participantLimit == null || participantLimit == 0) {
+            return;
+        }
         if ((confirmedRequests + participants) > participantLimit) {
             throw new ConflictException("Event has reached the limit of participation requests");
         }
