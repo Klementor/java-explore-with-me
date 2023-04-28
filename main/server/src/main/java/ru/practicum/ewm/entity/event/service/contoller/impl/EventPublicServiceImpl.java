@@ -114,7 +114,9 @@ public class EventPublicServiceImpl implements EventPublicService {
                 requestRepository.getEventRequestsCount(events, Participation.Status.CONFIRMED);
 
         for (Event event : events) {
-            if (confirmedRequestsByEventId.get(event.getId()) < event.getParticipantLimit()) {
+            if (event.getParticipantLimit() == 0) {
+                availableEvents.add(event);
+            } else if (confirmedRequestsByEventId.get(event.getId()) < event.getParticipantLimit()) {
                 availableEvents.add(event);
             }
         }
