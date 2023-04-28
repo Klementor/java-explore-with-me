@@ -33,7 +33,7 @@ public class ParticipationPrivateServiceImpl implements ParticipationPrivateServ
         User user = userRepository.checkUserExistsById(requesterId);
         Event event = eventRepository.checkEventExistsById(eventId);
         checkRequest(user, event);
-        Participation request = getParticipationRequest(requesterId, eventId);
+        Participation request = getParticipationRequest(user, event);
         Participation savedRequest = requestRepository.save(request);
         log.debug("PARTICIPATION_REQUEST[id={}, event_id={}, requester_id={}, status='{}'] saved.",
                 savedRequest.getId(),
@@ -66,16 +66,13 @@ public class ParticipationPrivateServiceImpl implements ParticipationPrivateServ
         return userRequestDtos;
     }
 
-    private Participation getParticipationRequest(Long userId, Long eventId) {
+    private Participation getParticipationRequest(User user, Event event) {
         Participation request = new Participation();
 
-        User requester = userRepository.getReferenceById(userId);
-        request.setRequester(requester);
-
-        Event event = eventRepository.getReferenceById(eventId);
+        request.setRequester(user);
         request.setEvent(event);
 
-        if (requestRepository.existsByEventIdAndRequesterId(eventId, userId)) {
+        if (requestRepository.existsByEventIdAndRequesterId(event.getId(), user.getId())) {
             throw new ConflictException("Request already exists");
         }
 
