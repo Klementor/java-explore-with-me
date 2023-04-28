@@ -48,6 +48,9 @@ public class ParticipationPrivateServiceImpl implements ParticipationPrivateServ
     public ParticipationResponseDto cancelRequestById(Long userId, Long requestId) {
         userRepository.checkUserExistsById(userId);
         Participation participation = requestRepository.checkParticipationExistsById(requestId);
+        if (!userId.equals(participation.getRequester().getId())) {
+            throw new ConflictException("User is not requester");
+        }
         Participation canceledRequest = cancelRequest(participation);
         log.debug("PARTICIPATION_REQUEST[id={}, requester_id={}, event_id={}] canceled.",
                 canceledRequest.getId(),
