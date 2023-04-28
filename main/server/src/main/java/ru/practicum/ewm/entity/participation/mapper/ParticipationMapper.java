@@ -1,6 +1,7 @@
 package ru.practicum.ewm.entity.participation.mapper;
 
-import lombok.experimental.UtilityClass;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import ru.practicum.ewm.entity.participation.dto.response.ParticipationResponseDto;
 import ru.practicum.ewm.entity.participation.entity.Participation;
 
@@ -8,10 +9,10 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-@UtilityClass
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class ParticipationMapper {
 
-    public ParticipationResponseDto toParticipationResponseDto(Participation request) {
+    public static ParticipationResponseDto toParticipationResponseDto(Participation request) {
         ParticipationResponseDto requestDto = new ParticipationResponseDto();
 
         requestDto.setId(request.getId());
@@ -23,7 +24,7 @@ public final class ParticipationMapper {
         return requestDto;
     }
 
-    public List<ParticipationResponseDto> toParticipationResponseDto(Iterable<Participation> requests) {
+    public static List<ParticipationResponseDto> toParticipationResponseDto(Iterable<Participation> requests) {
         return StreamSupport.stream(requests.spliterator(), false)
                 .map(ParticipationMapper::toParticipationResponseDto)
                 .collect(Collectors.toList());

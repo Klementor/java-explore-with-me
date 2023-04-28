@@ -23,12 +23,12 @@ public class UpdateEventAdminRequestDto {
 
     private LocalDateTime eventDate;
     private Location location;
-    private boolean paid;
+    private Boolean paid;
 
     @PositiveOrZero
     private Integer participantLimit;
 
-    private boolean requestModeration;
+    private Boolean requestModeration;
     private Event.AdminStateAction stateAction;
 
     @Size(min = 3, max = 120)
