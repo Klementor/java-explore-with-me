@@ -34,8 +34,7 @@ public class EventPublicServiceImpl implements EventPublicService {
 
     @Override
     public EventFullResponseDto getEventById(Long id, HttpServletRequest request) {
-        eventRepository.checkEventExistsById(id);
-        Event event = eventRepository.getReferenceById(id);
+        Event event = eventRepository.checkEventExistsById(id);
         eventStatisticsService.addEventView(request, LocalDateTime.now());
         EventFullResponseDto eventDto = getEventFullResponseDto(event, request);
         log.debug("EVENT<DTO>[id={}, title='{}'] returned.",

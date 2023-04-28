@@ -31,9 +31,6 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     @Transactional
     public CompilationResponseDto addCompilation(AddCompilationRequestDto compilationDto) {
         Set<Event> existsEvents = new HashSet<>(eventRepository.findAllById(compilationDto.getEvents()));
-        if (existsEvents.isEmpty()) {
-            throw new ConflictException("existsEvents are empty");
-        }
         Compilation compilation = CompilationMapper.toCompilation(compilationDto, existsEvents);
         Compilation savedCompilation = compilationRepository.save(compilation);
         log.debug("COMPILATION[id={}, title='{}', pinned={}, events_count={}] returned.",
