@@ -13,6 +13,7 @@ import ru.practicum.ewm.entity.compilation.repository.CompilationJpaRepository;
 import ru.practicum.ewm.entity.compilation.service.CompilationAdminService;
 import ru.practicum.ewm.entity.event.entity.Event;
 import ru.practicum.ewm.entity.event.repository.EventJpaRepository;
+import ru.practicum.ewm.exception.ConflictException;
 
 import java.util.HashSet;
 import java.util.Optional;
@@ -67,6 +68,9 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
         Optional.of(compilationDto.isPinned()).ifPresent(compilation::setPinned);
 
         Set<Event> existsEvents = new HashSet<>(eventRepository.findAllById(compilationDto.getEvents()));
+        if (existsEvents.isEmpty()) {
+            throw new ConflictException("existsEvents are empty");
+        }
         compilation.setEvents(existsEvents);
 
         return compilation;
