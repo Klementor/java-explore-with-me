@@ -119,9 +119,9 @@ public class EventAdminServiceImpl implements EventAdminService {
         Optional.ofNullable(adminRequest.getAnnotation()).ifPresent(event::setAnnotation);
         Optional.ofNullable(adminRequest.getDescription()).ifPresent(event::setDescription);
         Optional.ofNullable(adminRequest.getEventDate()).ifPresent(event::setEventDate);
-        Optional.ofNullable(adminRequest.getPaid()).ifPresent(event::setPaid);
+        Optional.of(adminRequest.isPaid()).ifPresent(event::setPaid);
         Optional.ofNullable(adminRequest.getParticipantLimit()).ifPresent(event::setParticipantLimit);
-        Optional.ofNullable(adminRequest.getRequestModeration()).ifPresent(event::setRequestModeration);
+        Optional.of(adminRequest.isRequestModeration()).ifPresent(event::setRequestModeration);
 
         return event;
     }
