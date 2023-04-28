@@ -124,7 +124,7 @@ public class EventPublicServiceImpl implements EventPublicService {
     private EventFullResponseDto getEventFullResponseDto(Event event, HttpServletRequest request) {
         return EventMapper.toEventFullResponseDto(event,
                 eventStatisticsService.getEventViews(
-                        LocalDateTime.from(event.getEventDate()).minusYears(1L),
+                        LocalDateTime.from(event.getEventDate()),
                         LocalDateTime.from(event.getEventDate()),
                         null,
                         request),
