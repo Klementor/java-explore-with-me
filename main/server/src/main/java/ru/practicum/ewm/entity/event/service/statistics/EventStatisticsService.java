@@ -34,8 +34,8 @@ public interface EventStatisticsService {
 
         for (Event event : events) {
             Long views = getEventViews(
-                    event.getEventDate().minusYears(1L),
                     event.getEventDate(),
+                    LocalDateTime.now(),
                     uniqueViews,
                     "/events" + event.getId());
             eventViews.put(event.getId(), views);
