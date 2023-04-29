@@ -151,6 +151,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
             event.setLon(eventDto.getLocation().getLon());
         }
 
+        Optional.ofNullable(eventDto.getTitle()).ifPresent(event::setTitle);
         Optional.ofNullable(eventDto.getAnnotation()).ifPresent(event::setAnnotation);
         Optional.ofNullable(eventDto.getDescription()).ifPresent(event::setDescription);
         Optional.ofNullable(eventDto.getEventDate()).ifPresent(event::setEventDate);
