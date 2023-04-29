@@ -5,7 +5,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.practicum.ewm.entity.event.entity.Event;
 
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -13,13 +12,11 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 public class UpdateEventUserRequestDto {
-    @NotBlank
     @Size(min = 20, max = 2_000)
     private String annotation;
 
     private Long category;
 
-    @NotBlank
     @Size(min = 20, max = 7_000)
     private String description;
 
@@ -30,7 +27,6 @@ public class UpdateEventUserRequestDto {
     private Boolean requestModeration;
     private Event.InitiatorStateAction stateAction;
 
-    @NotBlank
     @Size(min = 3, max = 120)
     private String title;
 
