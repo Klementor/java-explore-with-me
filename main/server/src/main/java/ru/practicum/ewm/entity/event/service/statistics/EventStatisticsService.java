@@ -36,9 +36,15 @@ public interface EventStatisticsService {
                 LocalDateTime.now(),
                 uriStrings,
                 uniqueViews);
+
         for (Event event : events) {
-            eventViews.put(event.getId(), eventViewsList.get(i));
-            i++;
+            if (eventViewsList == null || i >= eventViewsList.size() || eventViewsList.get(i) == null) {
+                eventViews.put(event.getId(), 0L);
+                i++;
+            } else {
+                eventViews.put(event.getId(), eventViewsList.get(i));
+                i++;
+            }
         }
         return eventViews;
     }
