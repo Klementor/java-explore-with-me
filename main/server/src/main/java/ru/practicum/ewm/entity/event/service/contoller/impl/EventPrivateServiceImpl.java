@@ -28,7 +28,6 @@ import ru.practicum.ewm.entity.user.entity.User;
 import ru.practicum.ewm.entity.user.repository.UserJpaRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional(readOnly = true)
@@ -154,15 +153,27 @@ public class EventPrivateServiceImpl implements EventPrivateService {
                 event.setLon(eventDto.getLocation().getLon());
             }
         }
-
-        Optional.ofNullable(eventDto.getTitle()).ifPresent(event::setTitle);
-        Optional.ofNullable(eventDto.getAnnotation()).ifPresent(event::setAnnotation);
-        Optional.ofNullable(eventDto.getDescription()).ifPresent(event::setDescription);
-        Optional.ofNullable(eventDto.getEventDate()).ifPresent(event::setEventDate);
-        Optional.ofNullable(eventDto.getPaid()).ifPresent(event::setPaid);
-        Optional.ofNullable(eventDto.getParticipantLimit()).ifPresent(event::setParticipantLimit);
-        Optional.ofNullable(eventDto.getRequestModeration()).ifPresent(event::setRequestModeration);
-
+        if (eventDto.getTitle() != null) {
+            event.setTitle(eventDto.getTitle());
+        }
+        if (eventDto.getAnnotation() != null && !eventDto.getAnnotation().isBlank()) {
+            event.setAnnotation(eventDto.getAnnotation());
+        }
+        if (eventDto.getDescription() != null && !eventDto.getDescription().isEmpty()) {
+            event.setDescription(eventDto.getDescription());
+        }
+        if (eventDto.getEventDate() != null) {
+            event.setEventDate(eventDto.getEventDate());
+        }
+        if (eventDto.getPaid() != null) {
+            event.setPaid(eventDto.getPaid());
+        }
+        if (eventDto.getParticipantLimit() != null) {
+            event.setParticipantLimit(eventDto.getParticipantLimit());
+        }
+        if (eventDto.getRequestModeration() != null) {
+            event.setRequestModeration(eventDto.getRequestModeration());
+        }
         return event;
     }
 
