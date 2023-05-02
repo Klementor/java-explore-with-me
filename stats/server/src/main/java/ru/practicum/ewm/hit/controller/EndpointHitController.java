@@ -42,4 +42,5 @@ public class EndpointHitController {
                 unique);
         return endpointHitService.getStats(start, end, uris, unique);
     }
+
 }

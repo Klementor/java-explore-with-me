@@ -11,6 +11,7 @@ import ru.practicum.ewm.hit.dto.response.stats.ViewStatsResponseDto;
 import javax.servlet.http.HttpServletRequest;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -44,5 +45,18 @@ public class EventStatisticsServiceImpl implements EventStatisticsService {
                 List.of(uri),
                 unique);
         return !stats.isEmpty() ? stats.get(0).getHits() : 0;
+    }
+
+    @Override
+    public List<Long> getEventViews(
+            LocalDateTime start,
+            LocalDateTime end,
+            List<String> uri,
+            Boolean unique
+    ) {
+        var stats = endpointHitClient.getStats(start, end, uri, unique);
+        return stats.stream()
+                .map(ViewStatsResponseDto::getHits)
+                .collect(Collectors.toList());
     }
 }
