@@ -63,8 +63,13 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
 //        for (EventRequestsCount requestsCount : getEventsRequestsCount(eventIds, requestStatus)) {
 //            eventRequestsCount.put(requestsCount.getEventId(), requestsCount.getRequestsCount().intValue());
 //        }
-
-        return getEventRequests(eventIds, requestStatus);
+        Map<Long, Integer> events = getEventRequests(eventIds, requestStatus);
+        for (Map.Entry<Long, Integer> entry : events.entrySet()) {
+            if (entry.getValue() == null) {
+                entry.setValue(0);
+            }
+        }
+        return events;
     }
 
     default Map<Long, Integer> getEventRequestsCount(Iterable<Event> events, Status requestStatus) {
