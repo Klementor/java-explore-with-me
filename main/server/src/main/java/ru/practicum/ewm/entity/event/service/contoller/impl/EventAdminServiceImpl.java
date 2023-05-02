@@ -110,16 +110,20 @@ public class EventAdminServiceImpl implements EventAdminService {
         }
 
         if (adminRequest.getLocation() != null) {
-            event.setLat(adminRequest.getLocation().getLat());
-            event.setLon(adminRequest.getLocation().getLon());
+            if (adminRequest.getLocation().getLat() != null) {
+                event.setLat(adminRequest.getLocation().getLat());
+            }
+            if (adminRequest.getLocation().getLon() != null) {
+                event.setLon(adminRequest.getLocation().getLon());
+            }
         }
-        if (!adminRequest.getTitle().isBlank()) {
+        if (adminRequest.getTitle() == null || !adminRequest.getTitle().isBlank()) {
             event.setTitle(adminRequest.getTitle());
         }
-        if (!adminRequest.getAnnotation().isBlank()) {
+        if (adminRequest.getAnnotation() == null || !adminRequest.getAnnotation().isBlank()) {
             event.setAnnotation(adminRequest.getAnnotation());
         }
-        if (!adminRequest.getDescription().isBlank()) {
+        if (adminRequest.getDescription() == null || !adminRequest.getDescription().isBlank()) {
             event.setDescription(adminRequest.getDescription());
         }
         if (adminRequest.getEventDate() != null) {
