@@ -74,6 +74,7 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
 
         return getEventRequestsCount(eventIds, requestStatus);
     }
+
     @Query("select req.event.id, count(req) " +
             "from Participation req " +
             "where req.event.id = (:eventIds) " +
