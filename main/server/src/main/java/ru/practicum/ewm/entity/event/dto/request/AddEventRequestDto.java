@@ -29,8 +29,9 @@ public class AddEventRequestDto {
     @NotNull
     private LocalDateTime eventDate;
 
-    @Valid
+
     @NotNull
+    @Valid
     private Location location;
 
     private boolean paid;
