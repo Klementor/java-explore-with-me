@@ -117,13 +117,13 @@ public class EventAdminServiceImpl implements EventAdminService {
                 event.setLon(adminRequest.getLocation().getLon());
             }
         }
-        if (adminRequest.getTitle() == null || !adminRequest.getTitle().isBlank()) {
+        if (adminRequest.getTitle() != null ) {
             event.setTitle(adminRequest.getTitle());
         }
-        if (adminRequest.getAnnotation() == null || !adminRequest.getAnnotation().isBlank()) {
+        if (adminRequest.getAnnotation() != null) {
             event.setAnnotation(adminRequest.getAnnotation());
         }
-        if (adminRequest.getDescription() == null || !adminRequest.getDescription().isBlank()) {
+        if (adminRequest.getDescription() != null) {
             event.setDescription(adminRequest.getDescription());
         }
         if (adminRequest.getEventDate() != null) {
