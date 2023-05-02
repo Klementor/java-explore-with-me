@@ -16,8 +16,9 @@ public final class CompilationMapper {
     public static Compilation toCompilation(AddCompilationRequestDto compilationDto,
                                             Set<Event> events) {
         Compilation compilation = new Compilation();
-
-        Optional.of(compilationDto.getTitle()).ifPresent(compilation::setTitle);
+        if (!compilationDto.getTitle().isBlank()) {
+            compilation.setTitle(compilationDto.getTitle());
+        }
         Optional.of(compilationDto.isPinned()).ifPresent(compilation::setPinned);
         Optional.ofNullable(events).ifPresent(compilation::setEvents);
 
