@@ -29,6 +29,9 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
     @Override
     @Transactional
     public CompilationResponseDto addCompilation(AddCompilationRequestDto compilationDto) {
+        if (compilationDto.getEvents() == null) {
+            throw new ConflictException("Events can not be null");
+        }
         Set<Event> existsEvents = new HashSet<>(eventRepository.findAllById(compilationDto.getEvents()));
         Compilation compilation = CompilationMapper.toCompilation(compilationDto, existsEvents);
         Compilation savedCompilation = compilationRepository.save(compilation);
