@@ -16,7 +16,6 @@ import ru.practicum.ewm.entity.event.repository.EventJpaRepository;
 import ru.practicum.ewm.exception.ConflictException;
 
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -64,7 +63,6 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
 
     private Compilation getUpdatedCompilation(Compilation compilation, UpdateCompilationRequestDto compilationDto) {
 
-        Optional.ofNullable(compilationDto.getTitle()).ifPresent(compilation::setTitle);
         if (compilationDto.getTitle() != null && !compilationDto.getTitle().isBlank()) {
             compilation.setTitle(compilationDto.getTitle());
         }
