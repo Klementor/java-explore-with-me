@@ -22,7 +22,6 @@ import ru.practicum.ewm.entity.participation.repository.jpa.ParticipationRequest
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -114,14 +113,27 @@ public class EventAdminServiceImpl implements EventAdminService {
             event.setLat(adminRequest.getLocation().getLat());
             event.setLon(adminRequest.getLocation().getLon());
         }
-
-        Optional.ofNullable(adminRequest.getTitle()).ifPresent(event::setTitle);
-        Optional.ofNullable(adminRequest.getAnnotation()).ifPresent(event::setAnnotation);
-        Optional.ofNullable(adminRequest.getDescription()).ifPresent(event::setDescription);
-        Optional.ofNullable(adminRequest.getEventDate()).ifPresent(event::setEventDate);
-        Optional.ofNullable(adminRequest.getPaid()).ifPresent(event::setPaid);
-        Optional.ofNullable(adminRequest.getParticipantLimit()).ifPresent(event::setParticipantLimit);
-        Optional.ofNullable(adminRequest.getRequestModeration()).ifPresent(event::setRequestModeration);
+        if (!adminRequest.getTitle().isBlank()) {
+            event.setTitle(adminRequest.getTitle());
+        }
+        if (!adminRequest.getAnnotation().isBlank()) {
+            event.setAnnotation(adminRequest.getAnnotation());
+        }
+        if (!adminRequest.getDescription().isBlank()) {
+            event.setDescription(adminRequest.getDescription());
+        }
+        if (adminRequest.getEventDate() != null) {
+            event.setEventDate(adminRequest.getEventDate());
+        }
+        if (adminRequest.getPaid() != null) {
+            event.setPaid(adminRequest.getPaid());
+        }
+        if (adminRequest.getParticipantLimit() != null) {
+            event.setParticipantLimit(adminRequest.getParticipantLimit());
+        }
+        if (adminRequest.getRequestModeration() != null) {
+            event.setRequestModeration(adminRequest.getRequestModeration());
+        }
 
         return event;
     }
