@@ -67,11 +67,11 @@ public class CompilationAdminServiceImpl implements CompilationAdminService {
             compilation.setTitle(compilationDto.getTitle());
         }
         compilation.setPinned(compilationDto.isPinned());
-
-        Set<Event> existsEvents = new HashSet<>(eventRepository.findAllById(compilationDto.getEvents()));
-        if (existsEvents.isEmpty()) {
-            throw new ConflictException("existsEvents are empty");
+        if (compilationDto.getEvents() == null) {
+            throw new ConflictException("Events can not be null");
         }
+        Set<Event> existsEvents = new HashSet<>(eventRepository.findAllById(compilationDto.getEvents()));
+
         compilation.setEvents(existsEvents);
 
         return compilation;
