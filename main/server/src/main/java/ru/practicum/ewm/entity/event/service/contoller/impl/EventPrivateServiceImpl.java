@@ -147,8 +147,12 @@ public class EventPrivateServiceImpl implements EventPrivateService {
         }
 
         if (eventDto.getLocation() != null) {
-            event.setLat(eventDto.getLocation().getLat());
-            event.setLon(eventDto.getLocation().getLon());
+            if (eventDto.getLocation().getLat() != null) {
+                event.setLat(eventDto.getLocation().getLat());
+            }
+            if (eventDto.getLocation().getLon() != null) {
+                event.setLon(eventDto.getLocation().getLon());
+            }
         }
 
         Optional.ofNullable(eventDto.getTitle()).ifPresent(event::setTitle);
