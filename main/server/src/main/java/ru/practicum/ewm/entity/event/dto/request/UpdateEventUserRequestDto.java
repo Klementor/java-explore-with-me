@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import ru.practicum.ewm.entity.event.entity.Event;
 
+import javax.validation.constraints.PositiveOrZero;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
@@ -23,7 +24,9 @@ public class UpdateEventUserRequestDto {
     private LocalDateTime eventDate;
     private Location location;
     private Boolean paid;
+    @PositiveOrZero
     private Integer participantLimit;
+
     private Boolean requestModeration;
     private Event.InitiatorStateAction stateAction;
 
