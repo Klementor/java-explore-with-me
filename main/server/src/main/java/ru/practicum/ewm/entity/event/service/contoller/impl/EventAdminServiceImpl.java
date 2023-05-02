@@ -117,7 +117,7 @@ public class EventAdminServiceImpl implements EventAdminService {
                 event.setLon(adminRequest.getLocation().getLon());
             }
         }
-        if (adminRequest.getTitle() != null ) {
+        if (adminRequest.getTitle() != null) {
             event.setTitle(adminRequest.getTitle());
         }
         if (adminRequest.getAnnotation() != null) {
