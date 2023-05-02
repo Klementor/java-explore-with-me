@@ -19,7 +19,7 @@ public final class CompilationMapper {
         if (!compilationDto.getTitle().isBlank()) {
             compilation.setTitle(compilationDto.getTitle());
         }
-        Optional.of(compilationDto.isPinned()).ifPresent(compilation::setPinned);
+        compilation.setPinned(compilationDto.isPinned());
         if (!events.isEmpty()) {
             compilation.setEvents(events);
         }
