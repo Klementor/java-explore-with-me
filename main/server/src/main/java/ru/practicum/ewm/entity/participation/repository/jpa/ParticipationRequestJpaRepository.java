@@ -63,10 +63,10 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
         return getEventRequests(eventIds, requestStatus);
     }
 
-    @Query("SELECT req.event.id, COUNT(*) " +
+    @Query("SELECT (req.event.id, COUNT(*)) " +
             "FROM Participation AS req " +
             "WHERE ((:eventIds) IS NULL OR req.event.id IN (:eventIds)) " +
-            "AND (req.status = (:status)) " +
+            "AND (req.status = :status) " +
             "GROUP BY req.event.id")
     Map<Long, Integer> getEventRequests(@Param("eventIds") Set<Long> eventIds,
                                         @Param("status") Status requestStatus);
