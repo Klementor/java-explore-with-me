@@ -10,7 +10,9 @@ import ru.practicum.ewm.entity.event.entity.Event;
 import ru.practicum.ewm.entity.participation.entity.Participation;
 import ru.practicum.ewm.entity.participation.entity.Participation.Status;
 import ru.practicum.ewm.entity.participation.exception.ParticipationRequestNotFoundException;
+import ru.practicum.ewm.entity.participation.repository.jpa.model.EventRequestsCount;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -50,36 +52,36 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
     }
 
     default Map<Long, Integer> getEventRequestsCount(Set<Long> eventIds, Status requestStatus) {
-//        Map<Long, Integer> eventRequestsCount = new HashMap<>();
+        Map<Long, Integer> eventRequestsCount = new HashMap<>();
 
-//        for (Long eventId : eventIds) {
-//            eventRequestsCount.put(eventId, 0);
-//        }
-//
-//        for (EventRequestsCount requestsCount : getEventsRequestsCount(eventIds, requestStatus)) {
-//            eventRequestsCount.put(requestsCount.getEventId(),
-//            requestsCount.getRequestsCount().intValue());
-//        }
-        return getEventRequests(eventIds, requestStatus);
+        for (Long eventId : eventIds) {
+            eventRequestsCount.put(eventId, 0);
+        }
+
+        for (EventRequestsCount requestsCount : getEventsRequestsCount(eventIds, requestStatus)) {
+            eventRequestsCount.put(requestsCount.getEventId(),
+                    requestsCount.getRequestsCount().intValue());
+        }
+        return eventRequestsCount;
     }
 
-    @Query("select req.event.id, count(req) " +
-            "from Participation req " +
-            "where (:eventIds) IS NULL OR req.event.id in (:eventIds) " +
-            "and req.status = (:status) " +
-            "group by req.event.id")
-    Map<Long, Integer> getEventRequests(@Param("eventIds") Set<Long> eventIds,
-                                        @Param("status") Status requestStatus);
+//    @Query("select req.event.id, count(req) " +
+//            "from Participation req " +
+//            "where (:eventIds) IS NULL OR req.event.id in (:eventIds) " +
+//            "and req.status = (:status) " +
+//            "group by req.event.id")
+//    Map<Long, Integer> getEventRequests(@Param("eventIds") Set<Long> eventIds,
+//                                        @Param("status") Status requestStatus);
 
-    // @Query(""
-//            + "SELECT "
-//            + "  new ru.practicum.ewm.entity.participation.repository.jpa.model.EventRequestsCount( "
-//            + "    requests.event.id, COUNT(*), requests.status "
-//            + "  ) "
-//            + "FROM Participation AS requests "
-//            + "WHERE  OR requests.event.id IN (:eventIds)) "
-//            + "AND (requests.status = :status) "
-//            + "GROUP BY requests.id ")
-//    List<EventRequestsCount> getEventsRequestsCount(@Param("eventIds") Set<Long> eventIds,
-//                                                    @Param("status") Status requestStatus);
+    @Query(""
+            + "SELECT "
+            + "  new ru.practicum.ewm.entity.participation.repository.jpa.model.EventRequestsCount( "
+            + "    requests.event.id, COUNT(*), requests.status "
+            + "  ) "
+            + "FROM Participation AS requests "
+            + "WHERE (:eventIds) IS NULL OR requests.event.id IN (:eventIds) "
+            + "AND (requests.status = :status) "
+            + "GROUP BY requests.id ")
+    List<EventRequestsCount> getEventsRequestsCount(@Param("eventIds") Set<Long> eventIds,
+                                                    @Param("status") Status requestStatus);
 }
