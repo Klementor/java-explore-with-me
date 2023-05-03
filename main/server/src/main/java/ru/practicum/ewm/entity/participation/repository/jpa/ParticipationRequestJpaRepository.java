@@ -50,16 +50,6 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
     }
 
     default Map<Long, Integer> getEventRequestsCount(Set<Long> eventIds, Status requestStatus) {
-//        Map<Long, Integer> eventRequestsCount = new HashMap<>();
-//
-//        for (Long eventId : eventIds) {
-//            eventRequestsCount.put(eventId, 0);
-//        }
-//
-//        for (EventRequestsCount requestsCount : getEventsRequestsCount(eventIds, requestStatus)) {
-//            eventRequestsCount.put(requestsCount.getEventId(),
-//                    requestsCount.getRequestsCount().intValue());
-//        }
         return getEventRequests(eventIds, requestStatus);
     }
 
@@ -70,16 +60,4 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
             "GROUP BY req.event.id")
     Map<Long, Integer> getEventRequests(@Param("eventIds") Set<Long> eventIds,
                                         @Param("status") Status requestStatus);
-
-//    @Query(""
-//            + "SELECT "
-//            + "  new ru.practicum.ewm.entity.participation.repository.jpa.model.EventRequestsCount( "
-//            + "    requests.event.id, COUNT(*), requests.status "
-//            + "  ) "
-//            + "FROM Participation AS requests "
-//            + "WHERE (:eventIds) IS NULL OR requests.event.id IN (:eventIds) "
-//            + "AND (requests.status = :status) "
-//            + "GROUP BY requests.id ")
-//    List<EventRequestsCount> getEventsRequestsCount(@Param("eventIds") Set<Long> eventIds,
-//                                                    @Param("status") Status requestStatus);
 }
