@@ -53,25 +53,6 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
         }
     }
 
-    default Map<Long, Integer> getEventRequestsCount(Set<Long> eventIds, Status requestStatus) {
-//        Map<Long, Integer> eventRequestsCount = new HashMap<>();
-
-//        for (Long eventId : eventIds) {
-//            eventRequestsCount.put(eventId, 0);
-//        }
-//
-//        for (EventRequestsCount requestsCount : getEventsRequestsCount(eventIds, requestStatus)) {
-//            eventRequestsCount.put(requestsCount.getEventId(), requestsCount.getRequestsCount().intValue());
-//        }
-        Map<Long, Integer> events = getEventRequests(eventIds, requestStatus);
-        for (Map.Entry<Long, Integer> entry : events.entrySet()) {
-            if (entry.getValue() == null) {
-                entry.setValue(0);
-            }
-        }
-        return events;
-    }
-
     default Map<Long, Integer> getEventRequestsCount(Iterable<Event> events, Status requestStatus) {
         Set<Long> eventIds = StreamSupport.stream(events.spliterator(), false)
                 .map(Event::getId)
@@ -80,10 +61,25 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
         return getEventRequestsCount(eventIds, requestStatus);
     }
 
+    default Map<Long, Integer> getEventRequestsCount(Set<Long> eventIds, Status requestStatus) {
+//        Map<Long, Integer> eventRequestsCount = new HashMap<>();
+
+//        for (Long eventId : eventIds) {
+//            eventRequestsCount.put(eventId, 0);
+//        }
+//
+//        for (EventRequestsCount requestsCount : getEventsRequestsCount(eventIds, requestStatus)) {
+//            eventRequestsCount.put(requestsCount.getEventId(),
+//            requestsCount.getRequestsCount().intValue());
+//        }
+        return getEventRequests(eventIds, requestStatus);
+    }
+
     @Query("select req.event.id, count(req) " +
             "from Participation req " +
             "where req.event.id = (:eventIds) " +
             "and req.status = (:status) " +
             "group by req.event.id")
-    Map<Long, Integer> getEventRequests(@Param("eventIds") Set<Long> eventIds, @Param("status") Status requestStatus);
+    Map<Long, Integer> getEventRequests(@Param("eventIds") Set<Long> eventIds,
+                                        @Param("status") Status requestStatus);
 }
