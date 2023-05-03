@@ -27,18 +27,6 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
             + "AND requests.status = ?2 ")
     Integer getEventRequestsCount(Long eventId, Status requestStatus);
 
-//    @Query(""
-//            + "SELECT "
-//            + "  new ru.practicum.ewm.entity.participation.repository.jpa.model.EventRequestsCount( "
-//            + "    requests.event.id, COUNT(*), requests.status "
-//            + "  ) "
-//            + "FROM Participation AS requests "
-//            + "WHERE ((:eventIds) IS NULL OR requests.event.id IN (:eventIds)) "
-//            + "AND (requests.status = :status) "
-//            + "GROUP BY requests.id ")
-//    List<EventRequestsCount> getEventsRequestsCount(@Param("eventIds") Set<Long> eventIds,
-//                                                    @Param("status") Status requestStatus);
-
     List<Participation> findAllByRequesterId(Long userId);
 
     Page<Participation> findAllByEventInitiatorIdAndEventId(Long userId, Long eventId, Pageable pageable);
@@ -77,9 +65,21 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
 
     @Query("select req.event.id, count(req) " +
             "from Participation req " +
-            "where req.event.id in (:eventIds) " +
+            "where (:eventIds) IS NULL OR req.event.id in (:eventIds) " +
             "and req.status = (:status) " +
             "group by req.event.id")
     Map<Long, Integer> getEventRequests(@Param("eventIds") Set<Long> eventIds,
                                         @Param("status") Status requestStatus);
+
+    // @Query(""
+//            + "SELECT "
+//            + "  new ru.practicum.ewm.entity.participation.repository.jpa.model.EventRequestsCount( "
+//            + "    requests.event.id, COUNT(*), requests.status "
+//            + "  ) "
+//            + "FROM Participation AS requests "
+//            + "WHERE  OR requests.event.id IN (:eventIds)) "
+//            + "AND (requests.status = :status) "
+//            + "GROUP BY requests.id ")
+//    List<EventRequestsCount> getEventsRequestsCount(@Param("eventIds") Set<Long> eventIds,
+//                                                    @Param("status") Status requestStatus);
 }
