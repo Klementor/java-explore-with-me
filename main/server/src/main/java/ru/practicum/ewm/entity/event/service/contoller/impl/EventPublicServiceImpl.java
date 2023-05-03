@@ -116,7 +116,7 @@ public class EventPublicServiceImpl implements EventPublicService {
         for (Event event : events) {
             if (event.getParticipantLimit() == 0) {
                 availableEvents.add(event);
-            } else if (confirmedRequestsByEventId.get(event.getId()) < event.getParticipantLimit()) {
+            } else if (confirmedRequestsByEventId.getOrDefault(event.getId(), 0) < event.getParticipantLimit()) {
                 availableEvents.add(event);
             }
         }
