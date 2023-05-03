@@ -95,7 +95,7 @@ public final class EventMapper {
         List<EventFullResponseDto> eventsDto = new ArrayList<>();
         for (Event event : events) {
             Long views = eventViews.getOrDefault(event.getId(), 0L);
-            Integer confirmedRequests = eventConfirmedRequests.get(event.getId());
+            Integer confirmedRequests = eventConfirmedRequests.getOrDefault(event.getId(), 0);
             eventsDto.add(toEventFullResponseDto(event, views, confirmedRequests));
         }
         return eventsDto;
@@ -139,7 +139,7 @@ public final class EventMapper {
         List<EventShortResponseDto> eventsDto = new ArrayList<>();
         for (Event event : events) {
             Long views = eventViews.getOrDefault(event.getId(), 0L);
-            Integer confirmedRequests = eventConfirmedRequests.get(event.getId());
+            Integer confirmedRequests = eventConfirmedRequests.getOrDefault(event.getId(), 0);
             EventShortResponseDto eventDto = toShortResponseDto(event, views, confirmedRequests);
             eventsDto.add(eventDto);
         }
