@@ -77,7 +77,7 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
 
     @Query("select req.event.id, count(req) " +
             "from Participation req " +
-            "where req.event.id = (:eventIds) " +
+            "where req.event.id in (:eventIds) " +
             "and req.status = (:status) " +
             "group by req.event.id")
     Map<Long, Integer> getEventRequests(@Param("eventIds") Set<Long> eventIds,
