@@ -5,10 +5,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.jpa.domain.JpaSort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import ru.practicum.ewm.hit.dto.request.AddEndpointHitRequestDto;
+import ru.practicum.ewm.hit.dto.response.EndpointHitResponseDto;
+import ru.practicum.ewm.hit.dto.response.stats.ViewStatsResponseDto;
 import ru.practicum.ewm.hit.mapper.EndpointHitMapper;
-import ru.practicum.ewm.request.AddEndpointHitRequestDto;
-import ru.practicum.ewm.response.EndpointHitResponseDto;
-import ru.practicum.ewm.response.stats.ViewStatsResponseDto;
 import ru.practicum.ewm.hit.mapper.stats.ViewStatsMapper;
 import ru.practicum.ewm.hit.model.EndpointHit;
 import ru.practicum.ewm.hit.model.stats.ViewStats;
@@ -45,7 +45,7 @@ public class EndpointHitServiceImpl implements EndpointHitService {
             Boolean unique
     ) {
         List<ViewStats> endpointHitsStats;
-        if (unique == Boolean.TRUE) {
+        if (unique) {
             endpointHitsStats = endpointHitRepository.collectUniqueEndpointStats(
                     start,
                     end,

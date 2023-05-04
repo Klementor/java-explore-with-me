@@ -17,33 +17,33 @@ import java.time.format.DateTimeFormatter;
 
 @Configuration
 public class DateTimeFormatConfig implements WebMvcConfigurer {
-    private final String date;
-    private final String dateTime;
+    private final String dateFormat;
+    private final String dateTimeFormat;
 
     public DateTimeFormatConfig(
-            @Value("${default-date-format}") String date,
-            @Value("${default-date-time-format}") String dateTime
+            @Value("${default-date-format}") String dateFormat,
+            @Value("${default-date-time-format}") String dateTimeFormat
     ) {
-        this.date = date;
-        this.dateTime = dateTime;
+        this.dateFormat = dateFormat;
+        this.dateTimeFormat = dateTimeFormat;
     }
 
     @Override
     public void addFormatters(@NonNull FormatterRegistry registry) {
         DateTimeFormatterRegistrar registrar = new DateTimeFormatterRegistrar();
-        registrar.setDateFormatter(DateTimeFormatter.ofPattern(date));
-        registrar.setDateTimeFormatter(DateTimeFormatter.ofPattern(dateTime));
+        registrar.setDateFormatter(DateTimeFormatter.ofPattern(dateFormat));
+        registrar.setDateTimeFormatter(DateTimeFormatter.ofPattern(dateTimeFormat));
         registrar.registerFormatters(registry);
     }
 
     @Bean
     public Jackson2ObjectMapperBuilderCustomizer jsonCustomizer() {
         return builder -> {
-            builder.simpleDateFormat(dateTime);
-            builder.serializers(new LocalDateSerializer(DateTimeFormatter.ofPattern(date)));
-            builder.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(dateTime)));
-            builder.deserializers(new LocalDateDeserializer(DateTimeFormatter.ofPattern(date)));
-            builder.deserializers(new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(dateTime)));
+            builder.simpleDateFormat(dateTimeFormat);
+            builder.serializers(new LocalDateSerializer(DateTimeFormatter.ofPattern(dateFormat)));
+            builder.serializers(new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(dateTimeFormat)));
+            builder.deserializers(new LocalDateDeserializer(DateTimeFormatter.ofPattern(dateFormat)));
+            builder.deserializers(new LocalDateTimeDeserializer(DateTimeFormatter.ofPattern(dateTimeFormat)));
         };
     }
 }
