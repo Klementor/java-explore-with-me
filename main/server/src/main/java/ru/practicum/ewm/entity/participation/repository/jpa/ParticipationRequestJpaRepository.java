@@ -5,17 +5,19 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import ru.practicum.ewm.entity.event.entity.Event;
 import ru.practicum.ewm.entity.participation.entity.Participation;
 import ru.practicum.ewm.entity.participation.entity.Participation.Status;
 import ru.practicum.ewm.entity.participation.exception.ParticipationRequestNotFoundException;
+import ru.practicum.ewm.entity.participation.repository.jpa.model.EventRequestsCount;
 
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+
+import static java.util.stream.Collectors.toMap;
 
 
 public interface ParticipationRequestJpaRepository extends JpaRepository<Participation, Long> {
@@ -50,14 +52,15 @@ public interface ParticipationRequestJpaRepository extends JpaRepository<Partici
     }
 
     default Map<Long, Integer> getEventRequestsCount(Set<Long> eventIds, Status requestStatus) {
-        return getEventRequests(eventIds, requestStatus);
+        return getEventRequests(eventIds, requestStatus).stream()
+                .collect(toMap(EventRequestsCount::getEventId, EventRequestsCount::getRequestsCount));
     }
 
-    @Query("SELECT req.event.id, COUNT(*) " +
-            "FROM Participation AS req " +
-            "WHERE ((:eventIds) IS NULL OR req.event.id IN (:eventIds)) " +
-            "AND (req.status = :status) " +
-            "GROUP BY req.event.id")
-    Map<Long, Integer> getEventRequests(@Param("eventIds") Set<Long> eventIds,
-                                        @Param("status") Status requestStatus);
+    @Query("select new ru.practicum.ewm.entity.participation.repository.jpa.model.EventRequestsCount(" +
+            "req.event.id, " +
+            "count(req)) " +
+            "from Participation req " +
+            "WHERE req.event.id IN ?1 AND " +
+            "req.status = ?2 group by req.event.id")
+    List<EventRequestsCount> getEventRequests(Set<Long> eventIds, Status requestStatus);
 }
