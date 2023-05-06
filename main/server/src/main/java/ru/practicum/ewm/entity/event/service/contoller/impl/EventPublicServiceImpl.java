@@ -9,9 +9,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.entity.event.dto.response.EventFullResponseDto;
 import ru.practicum.ewm.entity.event.dto.response.EventShortResponseDto;
+import ru.practicum.ewm.entity.event.dto.response.comment.CommentResponseDto;
 import ru.practicum.ewm.entity.event.entity.Event;
+import ru.practicum.ewm.entity.event.entity.comment.Comment;
 import ru.practicum.ewm.entity.event.mapper.EventMapper;
+import ru.practicum.ewm.entity.event.mapper.comment.CommentMapper;
 import ru.practicum.ewm.entity.event.repository.EventJpaRepository;
+import ru.practicum.ewm.entity.event.repository.comment.CommentJpaRepository;
 import ru.practicum.ewm.entity.event.service.contoller.EventPublicService;
 import ru.practicum.ewm.entity.event.service.statistics.EventStatisticsService;
 import ru.practicum.ewm.entity.participation.entity.Participation;
@@ -31,6 +35,7 @@ public class EventPublicServiceImpl implements EventPublicService {
     private final EventJpaRepository eventRepository;
     private final ParticipationRequestJpaRepository requestRepository;
     private final EventStatisticsService eventStatisticsService;
+    private final CommentJpaRepository commentRepository;
 
     @Override
     public EventFullResponseDto getEventById(Long id, HttpServletRequest request) {
@@ -40,6 +45,21 @@ public class EventPublicServiceImpl implements EventPublicService {
         log.debug("EVENT<DTO>[id={}, title='{}'] returned.",
                 eventDto.getId(), eventDto.getTitle());
         return eventDto;
+    }
+
+    @Override
+    public Iterable<CommentResponseDto> getComments(Long id, Integer from, Integer size) {
+        eventRepository.checkEventExistsById(id);
+        List<Comment> comments = commentRepository.findAllByEventId(id, PageRequest.of(from, size));
+        return CommentMapper.toCommentResponseDto(comments);
+    }
+
+    @Override
+    public CommentResponseDto getCommentById(Long id, Long comId) {
+        eventRepository.checkEventExistsById(id);
+        commentRepository.checkCommentExistsById(comId);
+        Comment comment = commentRepository.getReferenceById(comId);
+        return CommentMapper.toCommentResponseDto(comment);
     }
 
     @Override

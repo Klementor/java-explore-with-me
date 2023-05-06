@@ -6,6 +6,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.entity.event.dto.response.EventFullResponseDto;
 import ru.practicum.ewm.entity.event.dto.response.EventShortResponseDto;
+import ru.practicum.ewm.entity.event.dto.response.comment.CommentResponseDto;
 import ru.practicum.ewm.entity.event.entity.Event;
 import ru.practicum.ewm.entity.event.service.contoller.EventPublicService;
 
@@ -50,5 +51,22 @@ public class EventPublicController {
                 rangeStart, rangeEnd, onlyAvailable);
         return publicEventService.searchEventsByParameters(
                 text, categories, paid, rangeStart, rangeEnd, onlyAvailable, sort, from, size, request);
+    }
+
+    @GetMapping("/{id}/comments")
+    public Iterable<CommentResponseDto> getEventComments(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
+            @RequestParam(defaultValue = "10") @Positive Integer size
+    ) {
+        return publicEventService.getComments(id, from, size);
+    }
+
+    @GetMapping("/{id}/comments/{comId}")
+    public CommentResponseDto getEventCommentById(
+            @PathVariable Long id,
+            @PathVariable Long comId
+    ) {
+        return publicEventService.getCommentById(id, comId);
     }
 }
