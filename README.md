@@ -1,2 +1,1 @@
-# Архитектура проекта
-![project architecture](./.readme/project_architecture.png)
+https://github.com/Klementor/java-explore-with-me/pull/5
