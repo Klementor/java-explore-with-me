@@ -19,8 +19,7 @@ public class Comment {
     @Column(name = "comment_id", nullable = false)
     private Long id;
 
-    @Column(length = 250, nullable = false)
-    @JoinColumn(name = "comment_text")
+    @Column(name = "comment_text", length = 250, nullable = false)
     private String text;
 
     @ManyToOne(optional = false)
