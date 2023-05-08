@@ -12,14 +12,14 @@ import ru.practicum.ewm.entity.event.service.contoller.EventPrivateService;
 import javax.validation.Valid;
 
 @RestController
-@RequestMapping("/users/{userId}/events")
+@RequestMapping("/users/{userId}/events/{eventId}/comments")
 @Validated
 @RequiredArgsConstructor
 public class AdminCommentController {
 
     private final EventPrivateService privateEventService;
 
-    @PostMapping("/{eventId}/comments")
+    @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CommentResponseDto addComment(
             @PathVariable Long userId,
@@ -29,7 +29,7 @@ public class AdminCommentController {
         return privateEventService.addComment(userId, eventId, commentDto);
     }
 
-    @PatchMapping("/{eventId}/comments/{comId}")
+    @PatchMapping("/{comId}")
     public CommentResponseDto updateCommentById(
             @PathVariable Long userId,
             @PathVariable Long eventId,
@@ -39,7 +39,7 @@ public class AdminCommentController {
         return privateEventService.updateCommentById(userId, eventId, comId, commentDto);
     }
 
-    @DeleteMapping("/{eventId}/comments/{comId}")
+    @DeleteMapping("/{comId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCommentById(
             @PathVariable Long userId,
