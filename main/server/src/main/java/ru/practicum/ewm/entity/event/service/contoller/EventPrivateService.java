@@ -1,6 +1,5 @@
 package ru.practicum.ewm.entity.event.service.contoller;
 
-import org.springframework.transaction.annotation.Transactional;
 import ru.practicum.ewm.entity.event.dto.request.AddEventRequestDto;
 import ru.practicum.ewm.entity.event.dto.request.UpdateEventUserRequestDto;
 import ru.practicum.ewm.entity.event.dto.request.comment.AddCommentRequestDto;
@@ -17,7 +16,7 @@ public interface EventPrivateService {
 
     EventFullResponseDto getEventById(Long userId, Long eventId);
 
-    @Transactional
+
     CommentResponseDto addComment(Long userId, Long eventId, AddCommentRequestDto commentDto);
 
     Iterable<EventShortResponseDto> getUserEvents(Long userId, Integer from, Integer size);
@@ -33,7 +32,7 @@ public interface EventPrivateService {
             Long eventId,
             UpdateEventUserRequestDto eventDto);
 
-    @Transactional
+
     CommentResponseDto updateCommentById(
             Long userId,
             Long eventId,
@@ -46,6 +45,6 @@ public interface EventPrivateService {
             Long eventId,
             UpdateEventParticipationStatusRequestDto requestStatusDto);
 
-    @Transactional
+
     void deleteCommentById(Long userId, Long eventId, Long comId);
 }
