@@ -10,12 +10,12 @@ import javax.validation.constraints.PositiveOrZero;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/events")
+@RequestMapping("/events/{id}/comments")
 public class CommentController {
 
     private final EventPublicService publicEventService;
 
-    @GetMapping("/{id}/comments")
+    @GetMapping
     public Iterable<CommentResponseDto> getEventComments(
             @PathVariable Long id,
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
@@ -24,7 +24,7 @@ public class CommentController {
         return publicEventService.getComments(id, from, size);
     }
 
-    @GetMapping("/{id}/comments/{comId}")
+    @GetMapping("/{comId}")
     public CommentResponseDto getEventCommentById(
             @PathVariable Long id,
             @PathVariable Long comId
