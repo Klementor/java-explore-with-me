@@ -20,6 +20,7 @@ public class Comment {
     private Long id;
 
     @Column(length = 250, nullable = false)
+    @JoinColumn(name = "comment_text")
     private String text;
 
     @ManyToOne(optional = false)
