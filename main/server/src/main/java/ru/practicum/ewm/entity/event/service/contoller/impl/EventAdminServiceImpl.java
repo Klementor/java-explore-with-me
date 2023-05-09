@@ -42,8 +42,7 @@ public class EventAdminServiceImpl implements EventAdminService {
             LocalDateTime rangeStart,
             LocalDateTime rangeEnd,
             Integer from,
-            Integer size
-    ) {
+            Integer size) {
         Page<Event> events = eventRepository.searchEventsByAdminParameters(
                 users,
                 states,
@@ -138,7 +137,6 @@ public class EventAdminServiceImpl implements EventAdminService {
         if (adminRequest.getRequestModeration() != null) {
             event.setRequestModeration(adminRequest.getRequestModeration());
         }
-
         return event;
     }
 }
