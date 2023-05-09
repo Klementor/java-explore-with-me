@@ -40,8 +40,7 @@ public class AdminCommentServiceImpl implements CommentAdminService {
             Long userId,
             Long eventId,
             Long comId,
-            UpdateCommentRequestDto commentDto
-    ) {
+            UpdateCommentRequestDto commentDto) {
         userRepository.checkUserExistsById(userId);
         eventRepository.checkEventExistsById(eventId);
         commentRepository.checkCommentExistsById(comId);

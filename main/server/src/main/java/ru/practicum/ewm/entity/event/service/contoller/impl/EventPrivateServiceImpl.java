@@ -75,8 +75,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     @Override
     public Iterable<ParticipationResponseDto> getEventParticipationRequests(
             Long userId, Long eventId,
-            Integer from, Integer size
-    ) {
+            Integer from, Integer size) {
         userRepository.checkUserExistsById(userId);
         eventRepository.checkEventExistsById(eventId);
         Page<Participation> requests = requestRepository.findAllByEventInitiatorIdAndEventId(
@@ -110,8 +109,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
     public EventRequestsByStatusResponseDto updateEventParticipationRequestStatus(
             Long userId,
             Long eventId,
-            UpdateEventParticipationStatusRequestDto requestStatusDto
-    ) {
+            UpdateEventParticipationStatusRequestDto requestStatusDto) {
         userRepository.checkUserExistsById(userId);
         Event event = eventRepository.checkEventExistsById(eventId);
         List<Participation> requests = considerRequests(event, requestStatusDto);
@@ -183,8 +181,7 @@ public class EventPrivateServiceImpl implements EventPrivateService {
 
     private List<Participation> considerRequests(
             Event event,
-            UpdateEventParticipationStatusRequestDto requestStatusDto
-    ) {
+            UpdateEventParticipationStatusRequestDto requestStatusDto) {
         int limit = event.getParticipantLimit();
         int confirmedRequests = requestRepository.getEventRequestsCount(event.getId(), Participation.Status.CONFIRMED);
 
