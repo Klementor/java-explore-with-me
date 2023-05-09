@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.entity.event.dto.request.comment.AddCommentRequestDto;
 import ru.practicum.ewm.entity.event.dto.request.comment.UpdateCommentRequestDto;
 import ru.practicum.ewm.entity.event.dto.response.comment.CommentResponseDto;
-import ru.practicum.ewm.entity.event.service.contoller.EventPrivateService;
+import ru.practicum.ewm.entity.event.service.contoller.CommentAdminService;
 
 import javax.validation.Valid;
 
@@ -17,16 +17,15 @@ import javax.validation.Valid;
 @RequiredArgsConstructor
 public class AdminCommentController {
 
-    private final EventPrivateService privateEventService;
+    private final CommentAdminService adminCommentService;
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CommentResponseDto addComment(
             @PathVariable Long userId,
             @PathVariable Long eventId,
-            @RequestBody @Valid AddCommentRequestDto commentDto
-    ) {
-        return privateEventService.addComment(userId, eventId, commentDto);
+            @RequestBody @Valid AddCommentRequestDto commentDto) {
+        return adminCommentService.addComment(userId, eventId, commentDto);
     }
 
     @PatchMapping("/{comId}")
@@ -34,9 +33,8 @@ public class AdminCommentController {
             @PathVariable Long userId,
             @PathVariable Long eventId,
             @PathVariable Long comId,
-            @RequestBody @Valid UpdateCommentRequestDto commentDto
-    ) {
-        return privateEventService.updateCommentById(userId, eventId, comId, commentDto);
+            @RequestBody @Valid UpdateCommentRequestDto commentDto) {
+        return adminCommentService.updateCommentById(userId, eventId, comId, commentDto);
     }
 
     @DeleteMapping("/{comId}")
@@ -44,8 +42,7 @@ public class AdminCommentController {
     public void deleteCommentById(
             @PathVariable Long userId,
             @PathVariable Long eventId,
-            @PathVariable Long comId
-    ) {
-        privateEventService.deleteCommentById(userId, eventId, comId);
+            @PathVariable Long comId) {
+        adminCommentService.deleteCommentById(userId, eventId, comId);
     }
 }

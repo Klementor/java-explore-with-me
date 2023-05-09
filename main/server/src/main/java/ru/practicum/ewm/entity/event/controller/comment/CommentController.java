@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.practicum.ewm.entity.event.dto.response.comment.CommentResponseDto;
-import ru.practicum.ewm.entity.event.service.contoller.EventPublicService;
+import ru.practicum.ewm.entity.event.service.contoller.CommentService;
 
 import javax.validation.constraints.Positive;
 import javax.validation.constraints.PositiveOrZero;
@@ -15,7 +15,7 @@ import javax.validation.constraints.PositiveOrZero;
 @RequiredArgsConstructor
 public class CommentController {
 
-    private final EventPublicService publicEventService;
+    private final CommentService commentService;
 
     @GetMapping
     public Iterable<CommentResponseDto> getEventComments(
@@ -23,7 +23,7 @@ public class CommentController {
             @RequestParam(defaultValue = "0") @PositiveOrZero Integer from,
             @RequestParam(defaultValue = "10") @Positive Integer size
     ) {
-        return publicEventService.getComments(id, from, size);
+        return commentService.getComments(id, from, size);
     }
 
     @GetMapping("/{comId}")
@@ -31,6 +31,6 @@ public class CommentController {
             @PathVariable Long id,
             @PathVariable Long comId
     ) {
-        return publicEventService.getCommentById(id, comId);
+        return commentService.getCommentById(id, comId);
     }
 }
