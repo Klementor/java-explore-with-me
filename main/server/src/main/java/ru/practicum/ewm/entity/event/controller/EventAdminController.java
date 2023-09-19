@@ -30,9 +30,9 @@ public class EventAdminController {
                                                                 @RequestParam(required = false) LocalDateTime rangeStart,
                                                                 @RequestParam(required = false) LocalDateTime rangeEnd,
                                                                 @RequestParam(defaultValue = "0")
-                                                                    @PositiveOrZero Integer from,
+                                                                @PositiveOrZero Integer from,
                                                                 @RequestParam(defaultValue = "10")
-                                                                    @Positive Integer size) {
+                                                                @Positive Integer size) {
         log.info("get EVENT_PAGE<DTO>[from={}, size={}, user_ids_count={}, states_count={}, categories_count={}, "
                         + "start_time={}, end_time={}] by parameters.",
                 from, size, (users != null) ? users.size() : "ALL", (states != null) ? states.size() : "ALL",

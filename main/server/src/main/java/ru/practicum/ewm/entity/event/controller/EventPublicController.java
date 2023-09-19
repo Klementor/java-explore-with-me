@@ -40,9 +40,9 @@ public class EventPublicController {
                                                                  @RequestParam(defaultValue = "false") Boolean onlyAvailable,
                                                                  @RequestParam(required = false) Event.Sort sort,
                                                                  @RequestParam(defaultValue = "0")
-                                                                     @PositiveOrZero Integer from,
+                                                                 @PositiveOrZero Integer from,
                                                                  @RequestParam(defaultValue = "10")
-                                                                     @Positive Integer size,
+                                                                 @Positive Integer size,
                                                                  HttpServletRequest request) {
         log.info("get EVENT_PAGE<DTO>[from={}, size={}, sort={}, text='{}', categories_count={}, paid={}, "
                         + "start_time={}, end_time={}, only_available={}] by parameters.",

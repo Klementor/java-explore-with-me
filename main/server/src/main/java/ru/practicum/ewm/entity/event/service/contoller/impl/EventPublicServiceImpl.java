@@ -53,8 +53,7 @@ public class EventPublicServiceImpl implements EventPublicService {
             Event.Sort sort,
             Integer from,
             Integer size,
-            HttpServletRequest request
-    ) {
+            HttpServletRequest request) {
         Pageable pageable = PageRequest.of(from, size);
         Iterable<Event> events = eventRepository.searchEventsByParameters(
                 text,
@@ -87,8 +86,7 @@ public class EventPublicServiceImpl implements EventPublicService {
 
     private static List<EventShortResponseDto> sortEvents(
             @NonNull Event.Sort sort,
-            Iterable<EventShortResponseDto> eventDtos
-    ) {
+            Iterable<EventShortResponseDto> eventDtos) {
         List<EventShortResponseDto> sortedEventDtos;
         switch (sort) {
             case EVENT_DATE:

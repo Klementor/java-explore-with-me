@@ -44,9 +44,9 @@ public class EventPrivateController {
     @GetMapping
     public Iterable<EventShortResponseDto> getUserEvents(@PathVariable Long userId,
                                                          @RequestParam(defaultValue = "0")
-                                                             @PositiveOrZero Integer from,
+                                                         @PositiveOrZero Integer from,
                                                          @RequestParam(defaultValue = "10")
-                                                             @Positive Integer size) {
+                                                         @Positive Integer size) {
         log.info("get EVENT_PAGE<DTO>[initiator_id={}, from={}, size={}] by initiator.",
                 userId, from, size);
         return privateEventService.getUserEvents(userId, from, size);
@@ -56,9 +56,9 @@ public class EventPrivateController {
     public Iterable<ParticipationResponseDto> getEventParticipationRequests(@PathVariable Long userId,
                                                                             @PathVariable Long eventId,
                                                                             @RequestParam(defaultValue = "0")
-                                                                                @PositiveOrZero Integer from,
+                                                                            @PositiveOrZero Integer from,
                                                                             @RequestParam(defaultValue = "10")
-                                                                                @Positive Integer size) {
+                                                                            @Positive Integer size) {
         log.info("get PARTICIPATION_REQUEST_PAGE<DTO>[initiator_id={}, event_id={}, from={}, size={}] by event.",
                 userId, eventId, from, size);
         return privateEventService.getEventParticipationRequests(userId, eventId, from, size);
@@ -77,7 +77,7 @@ public class EventPrivateController {
     public EventRequestsByStatusResponseDto updateEventParticipationRequestStatus(@PathVariable Long userId,
                                                                                   @PathVariable Long eventId,
                                                                                   @RequestBody
-                                                                                      @Valid UpdateEventParticipationStatusRequestDto requestStatusDto) {
+                                                                                  @Valid UpdateEventParticipationStatusRequestDto requestStatusDto) {
         log.info("update EVENT_PARTICIPATION_REQUEST[initiator_id={}, event_id={}, request_ids_count={}, status='{}'].",
                 userId, eventId, requestStatusDto.getRequestIds().size(), requestStatusDto.getStatus());
         return privateEventService.updateEventParticipationRequestStatus(userId, eventId, requestStatusDto);
